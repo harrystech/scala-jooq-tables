@@ -164,3 +164,27 @@ Users.withTransaction { sql =>
     user.store()
 }
 ```
+
+# Using Custom Functions
+
+You can easily add your own custom functions as needs change:
+
+```scala
+package com.example
+
+import com.example.schema.records
+
+Object JooqTables {
+    final val Users = new JooqTable[records.User] {
+       override final val table = tables.User.USERS
+       
+       override final val table = table.ID
+       
+       // Custom Function
+       final def findByLastName(lastName: String)(implicit context: DSLContext) : Option[RecordType] = {
+         this.findBy(table.LAST_NAME, lastName)
+       }
+    }
+}
+
+```
