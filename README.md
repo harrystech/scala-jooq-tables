@@ -143,28 +143,6 @@ Users.create { record =>
 }
 ```
 
-## withTransaction
-
-Wraps database interactions with a Transaction
-
-withTransaction[A](handler: (DSLContext) => A)(implicit context: DSLContext)
-
-Arguments:
- * handler: Anonymous function that takes a DSLContext
- * context: Implicit DSLConext object to interact with the database using jOOQ query framework
- 
-```scala
-import com.example.JooqTables.Users
-
-...
-
-Users.withTransaction { sql =>
-    val user = Users.findBy(Users.table.LAST_NAME, "Doe")
-    user.setAge(34)
-    user.store()
-}
-```
-
 # Using Custom Functions
 
 You can easily add your own custom functions as needs change:

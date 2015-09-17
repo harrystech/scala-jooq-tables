@@ -95,22 +95,9 @@ trait JooqTable[R <: UpdatableRecord[R]]{
    * @return UpdatableRecord of type R
    */
   def create(handler: (R) => Any)(implicit context: DSLContext) : R = {
-    withTransaction { sql =>
-      val record = context.newRecord(table)
-      handler(record)
-      record.store()
-      record
-    }
-  }
-
-  /**
-   * Wrap the jOOQ database interactions in a transaction
-   * @param handler Function that takes a DSL context and has a return type of A
-   * @param context jOOQ contextual DSL for interacting with the database
-   * @tparam A Return type of the anonymous function
-   * @return Return value of passed anonymous function
-   */
-  def withTransaction[A](handler: (DSLContext) => A)(implicit context: DSLContext) : A = {
-    context.transactionResult(new FunctionalTransaction[A](handler))
+    val record = context.newRecord(table)
+    handler(record)
+    record.store()
+    record
   }
 }
