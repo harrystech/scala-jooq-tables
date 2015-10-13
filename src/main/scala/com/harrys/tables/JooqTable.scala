@@ -2,10 +2,15 @@ package com.harrys.tables
 
 import org.jooq._
 
+import scala.util.Try
+
 /**
  * Created by chris on 9/16/15.
  */
 trait JooqTable[R <: UpdatableRecord[R]]{
+
+  //  Path-dependent type that allows defining result types more easily
+  type RecordType = R
 
   /**
    * The ID column field from the jOOQ UpdatableRecord[R] object
@@ -19,7 +24,18 @@ trait JooqTable[R <: UpdatableRecord[R]]{
    */
   def table: Table[R]
 
-  type RecordType = R
+  /**
+   * @return The default maximum limit to return from this table. This forces larger values
+   *          to explicitly provide the limit and allows a single point to categorically override this later on
+   */
+  def defaultLimit: Int = 50
+
+  /**
+   * @return The default sort to use when returning list expressions. This provides a single place to uniformly
+   *          override the ordering of list returns
+   */
+  def defaultOrderBy: SortField[_] = idColumn.desc()
+
 
   /**
    * Generic select for database record(s) of type A
@@ -41,7 +57,7 @@ trait JooqTable[R <: UpdatableRecord[R]]{
    */
   def firstWhere(condition: Condition)(implicit context: DSLContext) : Option[R] = {
     select { sql =>
-      Option(sql.where(condition).orderBy(idColumn).fetchOne())
+      Option(sql.where(condition).orderBy(idColumn).limit(1).fetchOne())
     }
   }
 
@@ -76,12 +92,11 @@ trait JooqTable[R <: UpdatableRecord[R]]{
    * @param context jOOQ contextual DSL for interacting with the database
    * @return Sequence of UpdatableRecord of type R
    */
-  def list(where: Seq[Condition] = Seq(), orderBy: Option[SortField[_]] = None, limit: Int = 50, offset: Int = 0)(implicit context: DSLContext) : Seq[R] = {
+  def list(where: Seq[Condition] = Seq(), orderBy: SortField[_] = defaultOrderBy, limit: Int = defaultLimit, offset: Int = 0)(implicit context: DSLContext) : Seq[R] = {
     select { sql =>
-      val sort = orderBy.getOrElse(idColumn.desc())
       sql
         .where(where:_*)
-        .orderBy(sort)
+        .orderBy(orderBy)
         .limit(limit)
         .offset(offset)
         .fetchArray().toSeq
@@ -100,4 +115,12 @@ trait JooqTable[R <: UpdatableRecord[R]]{
     record.store()
     record
   }
+
+  /**
+   * Create an UpdatableRecord of type R
+   * @param handler Function that interacts with the newly created UpdatableRecord
+   * @param context jOOQ contextual DSL for interacting with the database
+   * @return The created record wrapped in a Success or Failure
+   */
+  def tryCreate(handler: (R) => Any)(implicit context: DSLContext) : Try[R] = Try(create(handler))
 }

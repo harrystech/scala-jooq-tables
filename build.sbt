@@ -2,7 +2,7 @@ name := """scala-jooq-tables"""
 
 organization := "com.harrys"
 
-version := "1.1.0"
+version := "1.2.0"
 
 scalaVersion := "2.11.7"
 
@@ -11,5 +11,3 @@ libraryDependencies ++= Seq(
 )
 
 exportJars := true
-
-libraryDependencies <+= (scalaVersion){ "org.scala-lang" % "scala-reflect" % _ }
