@@ -36,6 +36,10 @@ trait JooqTable[R <: UpdatableRecord[R]]{
    */
   def defaultOrderBy: SortField[_] = idColumn.desc()
 
+  /**
+   * @return The class that corresponds to the record type for this table
+   */
+  def recordClass: Class[R] = table.getRecordType.asInstanceOf[Class[R]]
 
   /**
    * Generic select for database record(s) of type A
