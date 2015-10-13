@@ -12,8 +12,8 @@ package com.example
 
 import com.example.schema.records
 
-Object JooqTables {
-    final val Users = new JooqTable[records.User] {
+object JooqTables {
+    final object Users extends JooqTable[records.User] {
        override final val table = tables.User.USERS
        override final val table = table.ID
     }
@@ -59,7 +59,7 @@ import com.example.JooqTables.Users
 
 ...
 
-Users.firstWhere(Users.tables.NAME.eq("Bob"))
+Users.firstWhere(Users.tables.NAME.equal("Bob"))
 
 ```
 
@@ -152,8 +152,8 @@ package com.example
 
 import com.example.schema.records
 
-Object JooqTables {
-    final val Users = new JooqTable[records.User] {
+object JooqTables {
+    object Users extends JooqTable[records.User] {
        override final val table = tables.User.USERS
        
        override final val table = table.ID
