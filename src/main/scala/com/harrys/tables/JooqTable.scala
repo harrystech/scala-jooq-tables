@@ -2,8 +2,6 @@ package com.harrys.tables
 
 import org.jooq._
 
-import scala.util.Try
-
 /**
  * Created by chris on 9/16/15.
  */

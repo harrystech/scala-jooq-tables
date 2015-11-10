@@ -119,7 +119,9 @@ trait AbstractTable[R <: UpdatableRecord[R]]{
   def create(handler: (R) => Any)(implicit context: DSLContext) : R = {
     val record = context.newRecord(table)
     handler(record)
+    val reload = reloadFieldsOnCreate.filterNot(field => record.changed(field))
     record.store()
+    record.refresh(reload:_*)
     record
   }
 
@@ -130,4 +132,9 @@ trait AbstractTable[R <: UpdatableRecord[R]]{
     * @return The created record wrapped in a Success or Failure
     */
   def tryCreate(handler: (R) => Any)(implicit context: DSLContext) : Try[R] = Try(create(handler))
+
+  /**
+    * Cached reference to fields with default values that will reload from the database after the create operation
+    */
+  private lazy val reloadFieldsOnCreate: Seq[Field[_]] = table.fields().filter(_.getDataType.defaulted())
 }
