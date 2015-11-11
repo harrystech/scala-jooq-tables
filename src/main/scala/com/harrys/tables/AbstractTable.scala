@@ -121,7 +121,9 @@ trait AbstractTable[R <: UpdatableRecord[R]]{
     handler(record)
     val reload = reloadFieldsOnCreate.filterNot(field => record.changed(field))
     record.store()
-    record.refresh(reload:_*)
+    if (reload.nonEmpty){
+      record.refresh(reload:_*)
+    }
     record
   }
 
