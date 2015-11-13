@@ -111,7 +111,9 @@ trait AbstractTable[R <: UpdatableRecordImpl[R]]{
   }
 
   /**
-    * Create an [[UpdatableRecordImpl]] of type [[R]]
+    * Create an row in the database that corresponds to the record created inside the handler passed to this function.
+    * Any values that are not set inside the handler and have default values in the database will be reloaded after
+    * the insert.
     * @param handler Function that interacts with the newly created UpdatableRecord
     * @param context jOOQ contextual DSL for interacting with the database
     * @return [[UpdatableRecordImpl]] of type [[R]]
@@ -124,7 +126,7 @@ trait AbstractTable[R <: UpdatableRecordImpl[R]]{
 
   /**
     * Creates an row in the database for the provided instance. Any values not set on the object that do provide defaults
-    * in the database will be returned on the insert.
+    * in the database will be reloaded after the insert completes.
     * @param record The instance of [[R]] to create in the database
     * @param context The [[DSLContext]] to use when inserting the row into the database
     * @return The same record as passed to this method, returned as a courtesy
@@ -148,6 +150,14 @@ trait AbstractTable[R <: UpdatableRecordImpl[R]]{
     * @return The created record wrapped in a Success or Failure
     */
   def tryCreate(handler: (R) => Any)(implicit context: DSLContext) : Try[R] = Try(create(handler))
+
+  /**
+    * Creates an instance of [[R]], if possible. Wrapped inside of a [[scala.util.Try]].
+    * @param record An instance to insert into the table
+    * @param context jOOQ contextual DSL for interacting with the database
+    * @return The created record wrapped in a Success or Failure
+    */
+  def tryCreate(record: R)(implicit context: DSLContext) : Try[R] = Try(create(record))
 
   /**
     * Cached reference to fields with default values that will reload from the database after the create operation
