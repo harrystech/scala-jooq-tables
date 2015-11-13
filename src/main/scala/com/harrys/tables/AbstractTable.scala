@@ -1,13 +1,13 @@
 package com.harrys.tables
 
 import org.jooq._
-
+import org.jooq.impl.UpdatableRecordImpl
 import scala.util.Try
 
 /**
   * Created by jpetty on 11/10/15.
   */
-trait AbstractTable[R <: UpdatableRecord[R]]{
+trait AbstractTable[R <: UpdatableRecordImpl[R]]{
 
   //  Path-dependent type that allows defining result types more easily
   type RecordType = R
@@ -111,16 +111,30 @@ trait AbstractTable[R <: UpdatableRecord[R]]{
   }
 
   /**
-    * Create an UpdatableRecord of type R
+    * Create an [[UpdatableRecordImpl]] of type [[R]]
     * @param handler Function that interacts with the newly created UpdatableRecord
     * @param context jOOQ contextual DSL for interacting with the database
-    * @return UpdatableRecord of type R
+    * @return [[UpdatableRecordImpl]] of type [[R]]
     */
   def create(handler: (R) => Any)(implicit context: DSLContext) : R = {
-    val record = context.newRecord(table)
+    val record = table.newRecord()
     handler(record)
-    val reload = reloadFieldsOnCreate.filterNot(field => record.changed(field))
-    record.store()
+    create(record)
+  }
+
+  /**
+    * Creates an row in the database for the provided instance. Any values not set on the object that do provide defaults
+    * in the database will be returned on the insert.
+    * @param record The instance of [[R]] to create in the database
+    * @param context The [[DSLContext]] to use when inserting the row into the database
+    * @return The same record as passed to this method, returned as a courtesy
+    */
+  def create(record: R)(implicit context: DSLContext) : R = {
+    val reload = reloadFieldsOnCreate.filterNot(f => record.changed(f))
+    if (record.configuration() == null){
+      record.attach(context.configuration())
+    }
+    record.insert()
     if (reload.nonEmpty){
       record.refresh(reload:_*)
     }
@@ -128,7 +142,7 @@ trait AbstractTable[R <: UpdatableRecord[R]]{
   }
 
   /**
-    * Create an UpdatableRecord of type R
+    * Creates an instance of [[R]], if possible. Wrapped inside of a [[scala.util.Try]].
     * @param handler Function that interacts with the newly created UpdatableRecord
     * @param context jOOQ contextual DSL for interacting with the database
     * @return The created record wrapped in a Success or Failure
