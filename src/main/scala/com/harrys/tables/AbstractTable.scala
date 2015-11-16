@@ -133,9 +133,7 @@ trait AbstractTable[R <: UpdatableRecordImpl[R]]{
     */
   def create(record: R)(implicit context: DSLContext) : R = {
     val reload = reloadFieldsOnCreate.filterNot(f => record.changed(f))
-    if (record.configuration() == null){
-      record.attach(context.configuration())
-    }
+    record.attach(context.configuration())
     record.insert()
     if (reload.nonEmpty){
       record.refresh(reload:_*)
