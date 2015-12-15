@@ -2,6 +2,7 @@ package com.harrys.tables
 
 import org.jooq._
 import org.jooq.impl.UpdatableRecordImpl
+
 import scala.util.Try
 
 /**
