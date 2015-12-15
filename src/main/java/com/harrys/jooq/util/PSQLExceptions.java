@@ -3,7 +3,12 @@ package com.harrys.jooq.util;
 import org.postgresql.util.PSQLException;
 
 /**
- * Created by jpetty on 12/15/15.
+ * The error codes checked in the SQL state are derived from Postgres' SQL error codes, which can be found
+ * <a href="http://www.postgresql.org/docs/9.4/static/errcodes-appendix.html">on their website</a>. The codes
+ * checked in this file are only the ones I found necessary at the time, and should definitely be supplemented
+ * if you find a useful error code check is missing.
+ *
+ * @author James Petty (12/15/15)
  */
 public final class PSQLExceptions {
 
