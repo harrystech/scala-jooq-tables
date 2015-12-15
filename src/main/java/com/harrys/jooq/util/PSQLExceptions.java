@@ -8,7 +8,8 @@ import org.postgresql.util.PSQLException;
  * checked in this file are only the ones I found necessary at the time, and should definitely be supplemented
  * if you find a useful error code check is missing.
  *
- * @author James Petty (12/15/15)
+ * @author  James Petty
+ * @since   1.4.0
  */
 public final class PSQLExceptions {
 
