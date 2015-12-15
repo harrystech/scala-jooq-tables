@@ -2,7 +2,7 @@ name := """scala-jooq-tables"""
 
 organization := "com.harrys"
 
-version := "1.4.0"
+version := "1.5.0"
 
 scalaVersion := "2.11.7"
 
@@ -17,8 +17,9 @@ libraryDependencies ++= Seq(
 //  Test Setup
 // --
 
-libraryDependencies += "org.scalacheck" %% "scalacheck" % "1.12.5" % Test
-
-testFrameworks in Test += TestFrameworks.ScalaCheck
+libraryDependencies ++= Seq(
+  "org.scalacheck" %% "scalacheck" % "1.12.5" % Test,
+  "org.scalatest" %% "scalatest" % "2.2.4" % Test
+)
 
 

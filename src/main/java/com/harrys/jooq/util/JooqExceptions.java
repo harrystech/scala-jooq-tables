@@ -26,11 +26,11 @@ public final class JooqExceptions {
         return (containsPSQLException(e) && PSQLExceptions.isNonNullConstraintException((PSQLException)e.getCause()));
     }
 
-    private static final boolean containsPSQLException(final DataAccessException e) {
+    public static final boolean containsPSQLException(final DataAccessException e) {
         return (e.getCause() != null && e.getCause() instanceof PSQLException);
     }
 
-    private static final boolean containsSQLException(final DataAccessException e){
+    public static final boolean containsSQLException(final DataAccessException e){
         return (e.getCause() != null && e.getCause() instanceof SQLException);
     }
 }
