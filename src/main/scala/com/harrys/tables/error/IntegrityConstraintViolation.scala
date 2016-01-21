@@ -16,7 +16,7 @@ object IntegrityConstraintViolation {
     case Some(s) =>
       val matched = JavaConversions.asScalaIterator(s.iterator()).collect {
         case check: SQLException if SQLExceptions.isIntegrityConstraintException(check) => check
-      }.toList
+      }.toSeq
       if (matched.isEmpty){
         None
       } else {
