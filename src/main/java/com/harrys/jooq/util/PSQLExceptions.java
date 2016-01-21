@@ -2,6 +2,10 @@ package com.harrys.jooq.util;
 
 import org.postgresql.util.PSQLException;
 
+import java.sql.SQLException;
+import java.util.Iterator;
+import java.util.stream.StreamSupport;
+
 /**
  * The error codes checked in the SQL state are derived from Postgres' SQL error codes, which can be found
  * <a href="http://www.postgresql.org/docs/9.4/static/errcodes-appendix.html">on their website</a>. The codes
@@ -32,5 +36,18 @@ public final class PSQLExceptions {
 
     public static final boolean isIntegrityConstraintException(final PSQLException e){
         return SQLExceptions.isIntegrityConstraintException(e);
+    }
+
+    public static final boolean containsAnyUniqueConstraintExceptions(final PSQLException e) {
+        final Iterator<Throwable> checks = e.iterator();
+        while (checks.hasNext()) {
+            final Throwable check = checks.next();
+            if (check instanceof PSQLException) {
+                if (isUniqueConstraintException((PSQLException)check)){
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }

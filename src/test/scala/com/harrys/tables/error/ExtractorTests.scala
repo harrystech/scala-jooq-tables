@@ -34,5 +34,29 @@ class ExtractorTests extends WordSpec with Matchers {
         case _: Throwable => fail("failed to identify a valid constraint violation")
       }
     }
+
+    "find exceptions nested in batches" in {
+      val wrap = new PSQLException("Fake unique constraint violation", PSQLState.UNKNOWN_STATE)
+      val base = new PSQLException("Subsequent fake constraint violation", new PSQLState(PSQLExceptions.PostgresUniqueConstraintCode))
+      wrap.setNextException(base)
+      val jooq = new DataAccessException("Fake jooq exception", base)
+      try {
+        throw jooq
+      } catch {
+        case UniqueConstraintViolation(e) => e shouldEqual base
+      }
+    }
+
+
+    "not match on cases where there is no successfull match" in {
+      val base = new PSQLException("Fake unique constraint violation", PSQLState.UNKNOWN_STATE)
+      val jooq = new DataAccessException("Fake jooq exception", base)
+      try {
+        throw jooq
+      } catch {
+        case IntegrityConstraintViolation(e) => fail(s"Should not have matched: ${ e }")
+        case e: Throwable => e shouldEqual jooq
+      }
+    }
   }
 }
