@@ -12,7 +12,7 @@ import scala.collection.JavaConversions
   */
 object IntegrityConstraintViolation {
 
-  def unapplySeq(e: DataAccessException): Option[List[SQLException]] = extractSQLException(e) match {
+  def unapplySeq(e: DataAccessException): Option[Seq[SQLException]] = extractSQLException(e) match {
     case Some(s) =>
       val matched = JavaConversions.asScalaIterator(s.iterator()).collect {
         case check: SQLException if SQLExceptions.isIntegrityConstraintException(check) => check

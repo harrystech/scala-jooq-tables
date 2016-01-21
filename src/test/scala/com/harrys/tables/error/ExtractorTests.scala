@@ -1,5 +1,7 @@
 package com.harrys.tables.error
 
+import java.sql.BatchUpdateException
+
 import com.harrys.jooq.util.PSQLExceptions
 import org.jooq.exception.DataAccessException
 import org.postgresql.util.{PSQLState, PSQLException}
@@ -36,8 +38,9 @@ class ExtractorTests extends WordSpec with Matchers {
     }
 
     "find exceptions nested in batches" in {
-      val wrap = new PSQLException("Fake unique constraint violation", PSQLState.UNKNOWN_STATE)
+      val wrap = new BatchUpdateException("Failed to update stuff", PSQLState.UNKNOWN_STATE.getState, 0, new Array[Int](0))
       val base = new PSQLException("Subsequent fake constraint violation", new PSQLState(PSQLExceptions.PostgresUniqueConstraintCode))
+      wrap.initCause(base)
       wrap.setNextException(base)
       val jooq = new DataAccessException("Fake jooq exception", base)
       try {
