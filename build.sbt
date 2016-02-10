@@ -16,7 +16,7 @@ libraryDependencies ++= Seq(
 
 lazy val `scala-postgres-utils` = RootProject(uri("ssh://git@github.com/harrystech/scala-postgres-utils.git#v0.1.0"))
 
-lazy val root = (project in file(".")).dependsOn(
+lazy val `scala-jooq-tables` = (project in file(".")).dependsOn(
   `scala-postgres-utils`
 )
 
