@@ -2,7 +2,7 @@ name := """scala-jooq-tables"""
 
 organization := "com.harrys"
 
-version := "1.6.2"
+version := "1.6.3"
 
 scalaVersion := "2.11.7"
 
