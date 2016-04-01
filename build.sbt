@@ -18,11 +18,14 @@ libraryDependencies ++= Seq(
   "com.typesafe" % "config" % "1.3.0"
 )
 
-lazy val `scala-postgres-utils` = RootProject(uri("ssh://git@github.com/harrystech/scala-postgres-utils.git#v0.1.0"))
+lazy val `scala-postgres-utils` = RootProject(uri("ssh://git@github.com/harrystech/scala-postgres-utils.git#v0.1.2"))
 
 lazy val `scala-jooq-tables` = (project in file(".")).dependsOn(
   `scala-postgres-utils`
 )
+
+// This forces the scala version used between these to match
+scalaVersion in `scala-postgres-utils` := (scalaVersion in `scala-jooq-tables`).value
 
 // --
 //  Test Setup
