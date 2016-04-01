@@ -2,11 +2,15 @@ name := """scala-jooq-tables"""
 
 organization := "com.harrys"
 
-version := "1.6.3"
+version := "1.6.4"
 
-scalaVersion := "2.11.7"
+scalaVersion := "2.11.8"
 
 exportJars := true
+
+scalacOptions ++= Seq("-feature", "-unchecked", "-Xlint", "-deprecation", "-Xfatal-warnings", "-target:jvm-1.8")
+
+javacOptions ++= Seq("-source", "1.8", "-target", "1.8", "-Xlint", "-Werror")
 
 libraryDependencies ++= Seq(
   "org.jooq" % "jooq" % "3.6.2",

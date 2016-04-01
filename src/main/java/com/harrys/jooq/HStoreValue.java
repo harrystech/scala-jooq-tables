@@ -11,6 +11,8 @@ import java.util.TreeMap;
  */
 public final class HStoreValue extends TreeMap<String, String> {
 
+    private static final long serialVersionUID = 1L;
+
     private static final Comparator<String> keyOrder = String::compareTo;
 
     public HStoreValue(){

@@ -11,8 +11,10 @@ import java.time.ZonedDateTime;
  * Created by jpetty on 12/18/15.
  */
 public final class ZonedDateTimeConverter implements Converter<Timestamp, ZonedDateTime> {
-    private static final ZoneId UtcId = ZoneId.of(ZoneOffset.UTC.getId());
 
+    private static final long serialVersionUID = 1L;
+
+    private static final ZoneId UtcId = ZoneId.of(ZoneOffset.UTC.getId());
 
     @Override
     public ZonedDateTime from(Timestamp databaseObject) {

@@ -10,6 +10,8 @@ import java.time.Instant;
  */
 public final class InstantConverter implements Converter<Timestamp, Instant> {
 
+    private static final long serialVersionUID = 1L;
+
     @Override
     public final Instant from(Timestamp databaseObject) {
         if (databaseObject == null){
