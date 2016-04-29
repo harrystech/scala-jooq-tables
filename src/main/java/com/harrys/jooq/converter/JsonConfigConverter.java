@@ -10,6 +10,8 @@ import java.util.Objects;
  */
 public final class JsonConfigConverter implements Converter<Object, Config> {
 
+    private static final long serialVersionUID = 1L;
+
     private static final ConfigParseOptions jsonParseOptions = ConfigParseOptions.defaults()
             .setSyntax(ConfigSyntax.JSON)
             .setAllowMissing(false);

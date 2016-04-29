@@ -8,6 +8,8 @@ import org.jooq.Converter;
  */
 public final class HStoreValueConverter implements Converter<Object, HStoreValue> {
 
+    private static final long serialVersionUID = 1L;
+
     @Override
     public final HStoreValue from(Object databaseObject) {
         if (databaseObject == null){
