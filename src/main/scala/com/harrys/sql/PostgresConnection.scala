@@ -24,6 +24,7 @@ final class PostgresConnection(jdbcUrl: String, applicationName: String) {
 
   // The jdbc parser is in scala-postgres-utils.
   private val dataSource = PostgresJdbcParser.parseJdbcUrlForDataSource(jdbcUrl)
+  dataSource.setLogUnclosedConnections(true)
 
   def withDSLContext[T](block: (DSLContext) => T): T = {
     withConnection(c => block(DSL.using(c, SQLDialect.POSTGRES)))
