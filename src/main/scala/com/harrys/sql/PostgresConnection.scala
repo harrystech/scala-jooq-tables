@@ -4,7 +4,7 @@ package com.harrys.sql
 import java.sql.Connection
 
 import org.jooq.impl.DSL
-import org.jooq.{DSLContext, SQLDialect}
+import org.jooq.{Configuration, DSLContext, SQLDialect, TransactionalCallable}
 
 import scala.util.{Failure, Success, Try}
 
@@ -40,10 +40,19 @@ final class PostgresConnection(jdbcUrl: String, applicationName: String) {
     }
   }
 
+  def withTransaction[A](function: (DSLContext) => A) : A = {
+    withDSLContext { sql =>
+      sql.transactionResult(new FunctionalTransaction[A](function))
+    }
+  }
+
   def tryConnect(): Try[Boolean] = Try(this.withDSLContext(_.selectOne().fetchOne().value1() == 1))
 
 }
 
+final class FunctionalTransaction[A](handler: (DSLContext) => A) extends TransactionalCallable[A] {
+  override def run(configuration: Configuration): A = handler(DSL.using(configuration))
+}
 
 object PostgresConnectionTest {
 
