@@ -15,6 +15,8 @@ import java.util.Objects;
  */
 public final class JsonConfigBinding implements Binding<Object, Config> {
 
+    private static final long serialVersionUID = 1L;
+
     private final JsonConfigConverter converter = new JsonConfigConverter();
 
 

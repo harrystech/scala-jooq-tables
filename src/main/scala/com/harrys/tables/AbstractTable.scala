@@ -112,6 +112,14 @@ trait AbstractTable[R <: UpdatableRecordImpl[R]]{
   }
 
   /**
+    * Return true if any row for the given condition exists in this table
+    * @param condition  jOOQ's version of a clause used for filtering
+    * @param context jOOQ contextual DSL for interacting with the database
+    * @return Boolean whether any matchin row exists
+    */
+  def exists(condition: Condition)(implicit context: DSLContext): Boolean = context.fetchExists(table, condition)
+
+  /**
     * Create an row in the database that corresponds to the record created inside the handler passed to this function.
     * Any values that are not set inside the handler and have default values in the database will be reloaded after
     * the insert.

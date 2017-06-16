@@ -11,6 +11,8 @@ import java.time.Instant;
  */
 public final class InstantBinding extends DefaultBinding<Timestamp, Instant> {
 
+    private static final long serialVersionUID = 1L;
+
     public InstantBinding(){
         super(new InstantConverter());
     }

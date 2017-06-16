@@ -15,6 +15,8 @@ import java.util.Objects;
  */
 public final class HStoreBinding implements Binding<Object, HStoreValue> {
 
+    private static final long serialVersionUID = 1L;
+
     private final HStoreValueConverter converter = new HStoreValueConverter();
 
     @Override
