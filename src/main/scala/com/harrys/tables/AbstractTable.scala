@@ -1,14 +1,13 @@
 package com.harrys.tables
 
 import org.jooq._
-import org.jooq.impl.UpdatableRecordImpl
 
 import scala.util.Try
 
 /**
   * Created by jpetty on 11/10/15.
   */
-trait AbstractTable[R <: UpdatableRecordImpl[R]] extends {
+trait AbstractTable[R <: UpdatableRecord[R]] {
 
   //  Path-dependent type that allows defining result types more easily
   type RecordType = R

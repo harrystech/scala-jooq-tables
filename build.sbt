@@ -8,7 +8,12 @@ scalaVersion := "2.12.3"
 
 exportJars := true
 
-scalacOptions ++= Seq("-feature", "-unchecked", "-Xlint", "-deprecation", "-Xfatal-warnings", "-target:jvm-1.8")
+scalacOptions in Compile ++= Seq("-feature",
+  "-unchecked",
+  "-Xlint",
+  "-deprecation",
+  "-target:jvm-1.8",
+  "-explaintypes")
 
 javacOptions ++= Seq("-source", "1.8", "-target", "1.8", "-Xlint", "-Werror")
 
@@ -33,5 +38,5 @@ scalaVersion in `scala-postgres-utils` := (scalaVersion in `scala-jooq-tables`).
 
 libraryDependencies ++= Seq(
   "org.scalacheck" %% "scalacheck" % "1.13.5" % Test,
-  "org.scalatest" % "scalatest_2.12" % "3.2.0-SNAP9" % Test
+  "org.scalatest" %% "scalatest" % "3.2.0-SNAP9" % Test
 )
