@@ -6,7 +6,7 @@ import com.harrys.jooq.util.PSQLExceptions
 import org.jooq.exception.DataAccessException
 import org.postgresql.util.PSQLException
 
-import scala.collection.JavaConversions
+import scala.collection.JavaConverters
 
 /**
   * Created by jpetty on 12/15/15.
@@ -14,8 +14,8 @@ import scala.collection.JavaConversions
 object ForeignKeyConstraintViolation {
 
   def unapplySeq(e: DataAccessException): Option[Seq[PSQLException]] = extractSQLException(e) match {
-    case Some(batch: BatchUpdateException) => extractForeignKeyConstraintErrors(JavaConversions.asScalaIterator(batch.iterator()))
-    case Some(psql:  PSQLException)        => extractForeignKeyConstraintErrors(JavaConversions.asScalaIterator(psql.iterator()))
+    case Some(batch: BatchUpdateException) => extractForeignKeyConstraintErrors(JavaConverters.asScalaIterator(batch.iterator()))
+    case Some(psql:  PSQLException)        => extractForeignKeyConstraintErrors(JavaConverters.asScalaIterator(psql.iterator()))
     case _ => None
   }
 
