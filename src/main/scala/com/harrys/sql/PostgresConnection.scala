@@ -67,7 +67,7 @@ object PostgresConnectionTest {
     val db = new PostgresConnection(jdbcUrl, applicationName)
 
     db.tryConnect match {
-      case Failure(reason) => false
+      case Failure(_) => false
       case Success(result) => result
     }
 
