@@ -6,16 +6,16 @@ import com.harrys.jooq.util.PSQLExceptions
 import org.jooq.exception.DataAccessException
 import org.postgresql.util.PSQLException
 
-import scala.collection.JavaConversions
 
+import scala.collection.JavaConverters
 /**
   * Created by jpetty on 12/15/15.
   */
 object NotNullConstraintViolation {
 
   def unapplySeq(e: DataAccessException): Option[Seq[PSQLException]] = extractSQLException(e) match {
-    case Some(batch: BatchUpdateException) => extractNotNullConstraintErrors(JavaConversions.asScalaIterator(batch.iterator()))
-    case Some(psql:  PSQLException)        => extractNotNullConstraintErrors(JavaConversions.asScalaIterator(psql.iterator()))
+    case Some(batch: BatchUpdateException) => extractNotNullConstraintErrors(JavaConverters.asScalaIterator(batch.iterator()))
+    case Some(psql:  PSQLException)        => extractNotNullConstraintErrors(JavaConverters.asScalaIterator(psql.iterator()))
     case _ => None
   }
 
