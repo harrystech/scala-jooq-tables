@@ -2,9 +2,9 @@ name := """scala-jooq-tables"""
 
 organization := "com.harrys.core"
 
-version := "1.6.6"
+version := "1.6.7-SNAPSHOT"
 
-scalaVersion := "2.12.4"
+scalaVersion := "2.12.5"
 
 exportJars := true
 
@@ -34,11 +34,11 @@ javacOptions ++= Seq("-source", "1.8", "-target", "1.8", "-Xlint", "-Werror")
 
 libraryDependencies ++= Seq(
   "org.jooq" % "jooq" % "3.10.1",
-  "org.postgresql" % "postgresql" % "9.4-1205-jdbc41",
-  "com.typesafe" % "config" % "1.3.0",
-  "org.scalacheck" %% "scalacheck" % "1.13.5" % Test,
-  "org.scalatest" %% "scalatest" % "3.2.0-SNAP9" % Test,
-  "com.harrys.core" %% "scala-postgres-utils" % "1.0.0"
+  "org.postgresql" % "postgresql" % "42.2.2",
+  "com.typesafe" % "config" % "1.3.3",
+  "org.scalacheck" %% "scalacheck" % "1.14.0" % Test,
+  "org.scalatest" %% "scalatest" % "3.2.0-SNAP10" % Test,
+  "com.harrys.core" %% "scala-postgres-utils" % "1.0.1-SNAPSHOT"
 )
 
 publishTo := {
