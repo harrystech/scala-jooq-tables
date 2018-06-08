@@ -38,7 +38,7 @@ libraryDependencies ++= Seq(
   "com.typesafe" % "config" % "1.3.3",
   "org.scalacheck" %% "scalacheck" % "1.14.0" % Test,
   "org.scalatest" %% "scalatest" % "3.2.0-SNAP10" % Test,
-  "com.harrys.core" %% "scala-postgres-utils" % "1.0.1-SNAPSHOT"
+  "com.harrys.core" %% "scala-postgres-utils" % "1.0.1"
 )
 
 publishTo := {
