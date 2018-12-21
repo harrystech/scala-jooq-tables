@@ -1,5 +1,5 @@
 #
-# Provides the run time container image for local testing of Hyppo Manager. Derived from the base Dockerfile in the ingestion-utils repo.
+# Provides the build container for this project. Derived from the base Dockerfile in the ingestion-utils repo.
 #
 FROM hyppo-build
 
