@@ -3,6 +3,16 @@
 #
 FROM hyppo-build
 
-COPY . /app/
+ARG JFROG_USERNAME
+ARG JFROG_PASSWORD
 
-RUN /usr/local/sbt/bin/sbt packageBin
+ENV JFROG_USERNAME=${JFROG_USERNAME}
+ENV JFROG_PASSWORD=${JFROG_PASSWORD}
+
+COPY build.sbt /app/
+COPY src/ /app/src/
+COPY project/ /app/project/
+
+RUN /usr/local/sbt/bin/sbt update 
+RUN /usr/local/sbt/bin/sbt assembly
+RUN /usr/local/sbt/bin/sbt publish
